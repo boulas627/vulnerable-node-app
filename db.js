@@ -20,3 +20,6 @@ db.serialize(() => {
 });
 
 module.exports = db;
+
+// username and password INSERT function above may be vulnerable 
+// alert() under the script tag might be vulnerable to a reflected XSS vulnerability but would need to confirm

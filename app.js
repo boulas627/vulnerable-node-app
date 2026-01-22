@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 app.locals.jwtSecret = "supersecret";
+// having the jwtSecret here may be vulnerable 
 
 app.use('/', authRoutes);
 app.use('/users', userRoutes);

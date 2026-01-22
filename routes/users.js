@@ -7,6 +7,7 @@ const router = express.Router();
 router.get('/profile', (req, res) => {
   const token = req.headers.authorization;
   const decoded = jwt.decode(token);
+  // using decode may be vulnerable 
 
   db.get(
     `SELECT * FROM users WHERE id = ${decoded.id}`,

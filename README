@@ -1,0 +1,17 @@
+This project is meant to highlight vulnerabilities that are present in an express Node.JS application. In a separate branch, I will walk through the following vulnerabilites and remediate them: 
+
+Express application setup
+
+Insecure authentication & authorization
+
+SQL injection
+
+Broken access control
+
+JWT misuse
+
+Plaintext credentials
+
+Stored, reflected, and DOM-based XSS
+
+Security misconfiguration patterns

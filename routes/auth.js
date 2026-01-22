@@ -9,7 +9,8 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  const { username, password } = req.body;
+  const { username, password } = req.body; 
+  // lack of input sanitization in this login request. Username and password is accepted without any parameter checks
 
   const query = `
     SELECT * FROM users
@@ -20,6 +21,7 @@ router.post('/login', (req, res) => {
   db.get(query, (err, user) => {
     if (user) {
       const token = jwt.sign(user, req.app.locals.jwtSecret);
+      // should there be some verification here? 
       res.json({ token });
     } else {
       res.status(401).send("Invalid credentials");
