@@ -1,17 +1,38 @@
 This project is meant to highlight vulnerabilities that are present in an express Node.JS application. In a separate branch, I will walk through the following vulnerabilites and remediate them: 
 
-Express application setup
+# Express application setup
 
-Insecure authentication & authorization
+# Insecure authentication & authorization
 
-SQL injection
+Principle of least priviledge is important to follow when designing applications and insecure authentication/authorization can lead to significant data loss, privacy concerns, application misuse, and a whole host of other issues. Insecure authentication allows for users that weren't originally allowed to use the application to grant access while insecure authorization deals with existing users having more priviledge than originally intended. 
 
-Broken access control
+# # SQL injection
 
-JWT misuse
+# Broken access control
 
-Plaintext credentials
+# JWT misuse
 
-Stored, reflected, and DOM-based XSS
+JSON Web Tokens (JWT) are utilized to digitally sign requsets and identify properly authenticated users. JWT's are stateless meaning that they aren't stored on the server the way traditionl cookies are. JWT's are helpful in that they eliminate the need for frequent database lookups and are digitally signed to prevent tampering. The three components of a JWT include a header, payload, and signature. 
+   
+When it comes to the JWT misuse present, this comes from the fact that the decode() method was used whcih is insecure because it skips out on cryptographic verification. 
 
-Security misconfiguration patterns
+# Plaintext credentials
+
+Storing credentials in plain text is a big mistake that unfortunately many developers make. When writing code locally, it may appear harmless to store an API token or some other type of secret in a variable in plain text however when committed into the repository, this is a insecure authentication vulnerability. In order to remediate this vulnerability, the development team should rotate and store the secret in some sort of secure vault. There are different ways of doing this but AWS Secrets Manager or GitHub Secrets are good places to start. 
+
+# Stored, reflected, and DOM-based XSS
+
+Stored XSS is when a threat actor sends a malicious payload that reaches the server and this is the most severe kind of XSS vulnerability. Reflected XSS is when a threat actor injects a malicious payload that is reflected or sent back to the end user upon submitting a request. A DOM based XSS attack occurs when the malicious payload sits within the Document Object Model. The sink is usually innerHTML or document.write(). 
+
+# Security misconfiguration patterns
+
+
+# Additional Notes
+
+## JWT's
+The process goes like this: 
+- User logs in (authentication)
+- JWT issued. Server signs and returns a JWT containing claims 
+- Client stores token
+- Client includes JWT in headers (Authorization: Bearer <token>)
+- Server verifies JWT by using the secret or public key to check the signature validity and claim expiry 
