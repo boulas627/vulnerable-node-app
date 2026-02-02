@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 app.locals.jwtSecret = "supersecret";
-// having the jwtSecret here may be vulnerable 
+// secret should not be stored in plain text like this 
 
 app.use('/', authRoutes);
 app.use('/users', userRoutes);
@@ -22,3 +22,5 @@ app.use('/admin', adminRoutes);
 app.listen(3000, () => {
   console.log("Server running on http://localhost:3000");
 });
+
+// HSTS isn't being implemented here

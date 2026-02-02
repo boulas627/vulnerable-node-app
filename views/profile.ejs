@@ -7,4 +7,5 @@
 </html>
 
 
-<!-- Displaying the username here is unecessary -->
+<!-- user.bio could lead to XSS with both stored and reflected XSS being possible. <%- %> renders unescaped HTML -->
+

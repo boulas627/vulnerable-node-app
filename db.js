@@ -21,5 +21,6 @@ db.serialize(() => {
 
 module.exports = db;
 
-// username and password INSERT function above may be vulnerable 
-// alert() under the script tag might be vulnerable to a reflected XSS vulnerability but would need to confirm
+// username and password INSERT function above may be vulnerable when storing in the database in plain text. 
+// alert() under the script tag might be vulnerable to a reflected XSS vulnerability 
+// Line 18 with Values is vulnerable due to a weak password policy as well as the fact that they are stored in plain text. 
