@@ -2,6 +2,12 @@ const sqlite3 = require('sqlite3').verbose();
 
 const db = new sqlite3.Database(':memory:');
 
+const bcrypt = require('bcrypt');
+
+const SALT_ROUNDS = 12;
+
+const hashedPassword = await bcrypt.hash('admin123', SALT_ROUNDS);
+
 db.serialize(() => {
   db.run(`
     CREATE TABLE users (
@@ -15,8 +21,13 @@ db.serialize(() => {
 
   db.run(`
     INSERT INTO users (username, password, role, bio)
-    VALUES ('admin', 'admin123', 'admin', '<script>alert("XSS")</script>')
-  `);
+    VALUES (?, ?, ?, ?)
+  `, [
+    'admin',
+    '$2b$12$uY8...REDACTED...',
+    'admin',
+    '<script>alert("XSS")</script>'
+  ]);
 });
 
 module.exports = db;

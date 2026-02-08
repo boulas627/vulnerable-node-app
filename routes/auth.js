@@ -4,6 +4,8 @@ const db = require('../db');
 
 const router = express.Router();
 
+const bcrypt = require('bcrypt');
+
 router.get('/login', (req, res) => {
   res.render('login');
 });
@@ -14,19 +16,34 @@ router.post('/login', (req, res) => {
 
   const query = `
     SELECT * FROM users
-    WHERE username = '${username}'
-    AND password = '${password}'
+    WHERE username = ?
+    AND password = ?
   `;
 
-  db.get(query, (err, user) => {
-    if (user) {
-      const token = jwt.sign(user, req.app.locals.jwtSecret);
-      // should there be some verification here? 
+  // const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
+  const values = [username, password]; 
+  db.get(
+    'SELECT * FROM users WHERE username = ?',
+    [username],
+    async (err, user) => {
+      if (!user) {
+        return res.status(401).send("Invalid credentials");
+      }
+  
+      const valid = await bcrypt.compare(password, user.password);
+      if (!valid) {
+        return res.status(401).send("Invalid credentials");
+      }
+  
+      const token = jwt.sign(
+        { id: user.id, role: user.role },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+      );
+  
       res.json({ token });
-    } else {
-      res.status(401).send("Invalid credentials");
     }
-  });
+  );
 });
 
 module.exports = router;

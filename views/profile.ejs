@@ -2,10 +2,10 @@
 <html>
 <body>
 <h1>Welcome <%= user.username %></h1>
-<div>Bio: <%- user.bio %></div>
+<div>Bio: <%= user.bio %></div>
 </body>
 </html>
 
 
-<!-- user.bio could lead to XSS with both stored and reflected XSS being possible. <%- %> renders unescaped HTML -->
+<!-- user.bio could lead to XSS with both stored and reflected XSS being possible. <%- %> renders unescaped HTM. Use <%= %> instead -->
 
